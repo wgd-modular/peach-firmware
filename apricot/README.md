@@ -10,7 +10,7 @@ Same hardware, same build steps as `peach/` — only the sketch differs.
 | Waves | 16 single-cycle waves, one at a time | 4 banks × 16 frames, scanned smoothly (frame crossfade) |
 | OSC 2 Level pot + CV (A3) | OSC 2 volume | **Wavetable position** (frame 0 → 15) |
 | OSC 1 / OSC 2 mix | OSC 1 50 %, OSC 2 0–50 % | fixed **50 % / 50 %** |
-| Detune pot (A2) | 0 → ~+2 octaves | **0 → +12 cent, fifth at full clockwise** |
+| Detune pot (A2) | 0 → ~+2 octaves | **0 → +50 cent, fifth at full clockwise** |
 | Wave button (D8) | next wave | **next bank** (saved in EEPROM) |
 | Table size | 2048 samples | 1024 samples (more frames in the same flash) |
 
@@ -20,7 +20,7 @@ Same hardware, same build steps as `peach/` — only the sketch differs.
 |---|---|---|
 | V/Oct CV | A5 | pitch, 1 V/oct |
 | Pitch pot | A1 | coarse pitch |
-| Detune pot | A2 | OSC 2 detune, 0 … +12 cent; full clockwise jumps to a fifth |
+| Detune pot | A2 | OSC 2 detune, 0 … +50 cent; full clockwise jumps to a fifth |
 | OSC 2 Level pot + CV | A3 | wavetable position |
 | Wave button | D8 | cycle bank 0 → 3 |
 | Out | A0 (DAC) | OSC 1 + OSC 2, 50/50 |

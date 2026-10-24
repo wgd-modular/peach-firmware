@@ -5,8 +5,8 @@
 
 const float pitch_calb = 0.985;
 const int octave_select = 2;
-// Detune: 0..12 cent over the pot travel, jumps to a fifth (700 cent) at full clockwise.
-const float DETUNE_MAX_CENT = 12.0f;
+// Detune: 0..50 cent over the pot travel, jumps to a fifth (700 cent) at full clockwise.
+const float DETUNE_MAX_CENT = 50.0f;
 const int DETUNE_FIFTH_THRESHOLD = 1010;  // ADC value counted as full clockwise (headroom for noise)
 
 volatile float pitch = 0;   // phase increment osc1 (samples of WT_SIZE)
