@@ -23,6 +23,12 @@ This firmware drives the DAC directly using register-level access and uses the [
 | [`peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
 | [`apricot/`](src/apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [src/apricot/README.md](src/apricot/README.md) |
 
+## Flash your module
+
+Flash your module straight from the browser with the [Peach web flasher](https://wgd-modular.github.io/peach-firmware/). Open it in Google Chrome or Edge, connect the XIAO RA4M1 over USB, double-tap RESET to enter the bootloader, then pick a firmware and press flash. It lists every firmware of the latest release together with its controls, and can also flash a local `.bin` you built yourself.
+
+Prefer to grab the raw binaries? Every firmware is pre-compiled and attached to the [latest release](https://github.com/wgd-modular/peach-firmware/releases/latest).
+
 ## Compilation
 
 This step is only required if you want to modify a firmware or create your own. Everything the firmwares need, the arduino-cli toolchain, the Seeed Studio core for the XIAO RA4M1 and the [AGTimer R4 library](https://github.com/washiyamagiken/AGTimer_R4_Library), is managed by [pixi](https://pixi.sh), so nothing has to be installed system-wide apart from pixi itself. It works the same on Linux and macOS (Intel and Apple Silicon); on Windows use WSL. To compile all firmwares run:
@@ -37,7 +43,7 @@ The first run downloads the toolchain into `.pixi`, later runs reuse it. To comp
 pixi run build apricot
 ```
 
-This places the firmware in `src/apricot/build/apricot.ino.bin`. `pixi run clean` removes all build output again.
+This places the firmware in `src/apricot/build/apricot.ino.bin`, ready for the web flasher. `pixi run clean` removes all build output again.
 
 ### Arduino IDE
 
