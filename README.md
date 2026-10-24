@@ -1,20 +1,6 @@
-# Peach Firmware 🍑
+# peach-firmware
 
-**Firmware for the Peach Eurorack oscillator module**  
-Powered by the Seeduino XIAO (RA4M1) and inspired by the amazing work of [Hagiwo](https://note.com/solder_state/n/na0ae5754fa9c).
-
-Peach is a super compact and beginner-friendly dual oscillator Eurorack module with selectable waveforms, CV control, and stereo output — great for tiny cases or as a Plaits-style budget voice.
-
-This firmware drives the DAC directly using register-level access and uses the [AGTimerR4 library](https://github.com/washiyamagiken/AGTimer_R4_Library) for high-speed waveform updates.
-
-## Features
-
-- Dual oscillator with crossfading and pitch spread
-- Selectable wavetables (up to 16)
-- V/Oct input
-- Waveform switch with EEPROM memory
-- Compact and efficient implementation
-- Built on top of Hagiwo's code and ideas
+A repository to collect different firmwares for the Peach module, a small Eurorack oscillator around the Seeed Studio XIAO RA4M1. It has three knobs (Frequency, Detune and OSC 2 Level), two CV inputs (1 V/Oct and OSC 2 Level), a Wave button and one output, driven by the RA4M1's 12-bit DAC. The original firmware is a dual oscillator based on [Hagiwo's RA4M1 oscillator](https://note.com/solder_state/n/na0ae5754fa9c).
 
 ## Firmwares
 
@@ -55,14 +41,10 @@ The sketches also build in the [Arduino IDE](https://www.arduino.cc/en/software)
 
 ## Credits
 
-Huge thanks to **Hagiwo** for the original concept, code, and inspiration. This firmware builds upon his public example and adapts it to a more production-ready, PCB-based format.
+The original Peach firmware builds on [Hagiwo's](https://note.com/solder_state/n/na0ae5754fa9c) code and ideas. Both firmwares use the [AGTimer R4 library](https://github.com/washiyamagiken/AGTimer_R4_Library) by washiyamagiken for their sample timer.
 
 ## Contributing
 
-Bugfixes, improvements, and additional waveform support are always welcome — feel free to open an issue or pull request. Each new firmware should be located in a new sub-folder of `src/` with the same name as its `.ino` file, together with a `README.md` file telling users about the controls and other possibly interesting stuff.
+Bugfixes, improvements, and new firmwares are always welcome. Feel free to open an issue or pull request. Each new firmware should be located in a new sub-folder of `src/` with the same name as its `.ino` file, together with a `README.md` file telling users about the controls and other possibly interesting stuff.
 
 The manual is generated from these READMEs, there is no hand-written text per firmware. The first `#` heading is the firmware's name, the text up to the first section heading its introduction, and every heading of the shallowest level below it starts a section. A section called "Controls" is highlighted, and what stands before its first sub-heading goes into a plaque, so put the table of the controls there. Sections for people who build or change the firmware themselves (those called Build & upload, Changing the wavetables, Flashing or Performance, say) are left out, as the manual has a chapter on both. Who wrote a firmware, when it was added and last changed come from the git history of its folder, so credit co-authors with a `Co-authored-by` trailer. Images and tables are fine, keep the text to Markdown.
-
----
-
-🧡 Stay patched!
