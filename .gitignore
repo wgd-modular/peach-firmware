@@ -1,0 +1,13 @@
+# pixi environments, arduino-cli and its cores and libraries
+.pixi/
+
+# Build output
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+
+.DS_Store
+.idea
+.vscode

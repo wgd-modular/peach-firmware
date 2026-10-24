@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate apricot/wavetables.h.
+"""Generate src/apricot/wavetables.h.
 
 Layout: BANKS x FRAMES x TABLE_SIZE samples, uint16, 0..4095 (12-bit DAC).
 The OSC 2 Level pot/CV scans through the FRAMES of the active bank.
 
-Run from the repo root:  python3 apricot/tools/gen_wavetables.py
+Run from the repo root:  python3 src/apricot/tools/gen_wavetables.py
 """
 import math
 import os

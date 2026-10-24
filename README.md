@@ -20,26 +20,28 @@ This firmware drives the DAC directly using register-level access and uses the [
 
 | Folder | Description |
 |---|---|
-| [`peach/`](peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
-| [`apricot/`](apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [apricot/README.md](apricot/README.md) |
+| [`peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
+| [`apricot/`](src/apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [src/apricot/README.md](src/apricot/README.md) |
 
-## Installation
+## Compilation
 
-1. **Install Arduino IDE**  
-   Download and install the [Arduino IDE](https://www.arduino.cc/en/software) for your OS.
+This step is only required if you want to modify a firmware or create your own. Everything the firmwares need, the arduino-cli toolchain, the Seeed Studio core for the XIAO RA4M1 and the [AGTimer R4 library](https://github.com/washiyamagiken/AGTimer_R4_Library), is managed by [pixi](https://pixi.sh), so nothing has to be installed system-wide apart from pixi itself. It works the same on Linux and macOS (Intel and Apple Silicon); on Windows use WSL. To compile all firmwares run:
 
-2. **Add Seeduino RA4M1 support**  
-   Go to **File > Preferences** and paste this URL under *Additional Boards Manager URLs*:  
+```shell
+pixi run build
+```
 
-```https://files.seeedstudio.com/arduino/package_renesas_1.2.0_index.json```
+The first run downloads the toolchain into `.pixi`, later runs reuse it. To compile one specific firmware, pass its name:
 
-Then open **Tools > Board > Board Manager**, search for “RA4M1”, and install the Seeeduino RA4M1 board package.
+```shell
+pixi run build apricot
+```
 
-3. **Install AGTimer_R4 Library**  
-Download the [AGTimer_R4 library as ZIP](https://github.com/washiyamagiken/AGTimer_R4_Library/archive/refs/heads/main.zip), then in Arduino IDE go to **Sketch > Include Library > Add .ZIP Library…** and select the downloaded file.
+This places the firmware in `src/apricot/build/apricot.ino.bin`. `pixi run clean` removes all build output again.
 
-4. **Connect Seeduino XIAO (RA4M1)**  
-Select the board and port under **Tools > Board** and **Tools > Port**, then upload `peach.ino`.
+### Arduino IDE
+
+The sketches also build in the [Arduino IDE](https://www.arduino.cc/en/software). Add `https://files.seeedstudio.com/arduino/package_renesas_1.2.0_index.json` under *Additional Boards Manager URLs* in **File > Preferences**, install the Seeeduino RA4M1 board package from **Tools > Board > Board Manager**, and add the [AGTimer R4 library as ZIP](https://github.com/washiyamagiken/AGTimer_R4_Library/archive/refs/heads/main.zip) with **Sketch > Include Library > Add .ZIP Library…**. Then select the XIAO RA4M1 and its port under **Tools**, open `src/peach/peach.ino` or `src/apricot/apricot.ino` and upload it.
 
 ## Credits
 
