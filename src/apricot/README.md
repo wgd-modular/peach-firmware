@@ -1,7 +1,7 @@
 # Apricot Firmware
 
 Wavetable firmware for the **Peach** module hardware (Seeeduino XIAO RA4M1).
-Same hardware, same build steps as `peach/` — only the sketch differs.
+Same hardware, same build steps as `src/peach/` — only the sketch differs.
 
 ## Changes vs. Peach
 
@@ -42,18 +42,18 @@ Every frame is DC-free and normalized to the full 12-bit range.
 `wavetables.h` is generated. Edit the bank functions in `tools/gen_wavetables.py`, then run from the repo root:
 
 ```bash
-python3 apricot/tools/gen_wavetables.py
+python3 src/apricot/tools/gen_wavetables.py
 ```
 
-Standard-library Python 3 only. Bank 2 is read from `peach/peach.ino`, so keep that file.
+Standard-library Python 3 only. Bank 2 is read from `src/peach/peach.ino`, so keep that file.
 Flash budget: each bank is 16 × 1024 × 2 B = 32 KB. Current build uses ~214 KB of 256 KB, so 1 more bank fits.
 
 ## Build & upload
 
-Follow the installation steps in the [main README](../README.md), then open and upload `apricot/apricot.ino`.
-
-CLI alternative:
+From the repo root:
 
 ```bash
-arduino-cli compile -b Seeeduino:renesas_uno:XIAO_RA4M1 apricot
+pixi run build apricot
 ```
+
+This places the firmware in `src/apricot/build/apricot.ino.bin`. See the [main README](../../README.md) for building in the Arduino IDE instead.
