@@ -58,7 +58,7 @@ body {
   text-align: center;
 }
 
-.mark { width: 64px; height: 64px; color: var(--peach); fill: var(--peach); }
+.mark { width: 64px; height: 64px; color: #cfc74d; fill: #cfc74d; }
 
 h1 {
   font-family: "Fraunces", serif;
