@@ -8,6 +8,7 @@ A repository to collect different firmwares for the Peach module, a small Eurora
 |---|---|
 | [`src/peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator). See [src/peach/README.md](src/peach/README.md) |
 | [`src/apricot/`](src/apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [src/apricot/README.md](src/apricot/README.md) |
+| [`src/plum/`](src/plum/) | Macro oscillator with four modes (FM, wavefolder, phase distortion, supersaw), each shaped by two macros on the Detune and OSC 2 Level controls. See [src/plum/README.md](src/plum/README.md) |
 
 ## Flash your module
 
