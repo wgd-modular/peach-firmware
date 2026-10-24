@@ -1,20 +1,6 @@
-# Peach Firmware 🍑
+# peach-firmware
 
-**Firmware for the Peach Eurorack oscillator module**  
-Powered by the Seeduino XIAO (RA4M1) and inspired by the amazing work of [Hagiwo](https://note.com/solder_state/n/na0ae5754fa9c).
-
-Peach is a super compact and beginner-friendly dual oscillator Eurorack module with selectable waveforms, CV control, and stereo output — great for tiny cases or as a Plaits-style budget voice.
-
-This firmware drives the DAC directly using register-level access and uses the [AGTimerR4 library](https://github.com/washiyamagiken/AGTimer_R4_Library) for high-speed waveform updates.
-
-## Features
-
-- Dual oscillator with crossfading and pitch spread
-- Selectable wavetables (up to 16)
-- V/Oct input
-- Waveform switch with EEPROM memory
-- Compact and efficient implementation
-- Built on top of Hagiwo's code and ideas
+A repository to collect different firmwares for the Peach module, a small Eurorack oscillator around the Seeed Studio XIAO RA4M1. It has three knobs (Frequency, Detune and OSC 2 Level), a 1 V/Oct and an OSC 2 Level CV input, a Wave button and one output, driven by the RA4M1's 12-bit DAC. The original firmware is a dual oscillator based on [Hagiwo's RA4M1 oscillator](https://note.com/solder_state/n/na0ae5754fa9c).
 
 ## Firmwares
 
@@ -45,12 +31,8 @@ The sketches also build in the [Arduino IDE](https://www.arduino.cc/en/software)
 
 ## Credits
 
-Huge thanks to **Hagiwo** for the original concept, code, and inspiration. This firmware builds upon his public example and adapts it to a more production-ready, PCB-based format.
+The original Peach firmware builds on [Hagiwo's](https://note.com/solder_state/n/na0ae5754fa9c) code and ideas and uses the [AGTimer R4 library](https://github.com/washiyamagiken/AGTimer_R4_Library) by washiyamagiken for its sample timer.
 
 ## Contributing
 
-Bugfixes, improvements, and additional waveform support are always welcome — feel free to open an issue or pull request.
-
----
-
-🧡 Stay patched!
+Bugfixes, improvements, and new firmwares are always welcome, feel free to open an issue or pull request.
