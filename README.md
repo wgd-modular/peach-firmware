@@ -20,8 +20,8 @@ This firmware drives the DAC directly using register-level access and uses the [
 
 | Folder | Description |
 |---|---|
-| [`peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
-| [`apricot/`](src/apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [src/apricot/README.md](src/apricot/README.md) |
+| [`src/peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
+| [`src/apricot/`](src/apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [src/apricot/README.md](src/apricot/README.md) |
 
 ## Compilation
 
@@ -31,7 +31,7 @@ This step is only required if you want to modify a firmware or create your own. 
 pixi run build
 ```
 
-The first run downloads the toolchain into `.pixi`, later runs reuse it. To compile one specific firmware, pass its name:
+The first run downloads the toolchain into `.pixi`, later runs reuse it and work offline. To compile one specific firmware, pass its name:
 
 ```shell
 pixi run build apricot
