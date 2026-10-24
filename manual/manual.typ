@@ -312,8 +312,10 @@ firmware chapters use the same names.
   [OSC 2 Level, knob and CV], [A3], [1 V/Oct], [A5], [Wave], [D8],
 )
 
-Where a firmware adds a CV input to a knob, the knob sets the starting point
-and the CV moves it from there. Each chapter says what its controls do.
+The OSC 2 Level knob and the jack below it are added up before the XIAO
+reads them, so the knob sets the starting point and the CV moves it from
+there. The firmware adds the 1 V/Oct input to the Frequency knob. Each
+chapter says what its controls do.
 
 == Specifications
 
