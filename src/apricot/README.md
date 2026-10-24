@@ -1,4 +1,4 @@
-# Apricot Firmware
+# Apricot
 
 Wavetable firmware for the **Peach** module hardware (Seeeduino XIAO RA4M1).
 Same hardware, same build steps as `src/peach/` — only the sketch differs.
@@ -18,8 +18,8 @@ Same hardware, same build steps as `src/peach/` — only the sketch differs.
 
 | Input | Pin | Function |
 |---|---|---|
-| V/Oct CV | A5 | pitch, 1 V/oct |
-| Pitch pot | A1 | coarse pitch |
+| 1 V/Oct CV | A5 | pitch |
+| Frequency pot | A1 | coarse pitch |
 | Detune pot | A2 | OSC 2 detune, 0 … +50 cent; full clockwise jumps to a fifth |
 | OSC 2 Level pot + CV | A3 | wavetable position |
 | Wave button | D8 | cycle bank 0 → 4 |

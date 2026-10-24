@@ -20,7 +20,7 @@ This firmware drives the DAC directly using register-level access and uses the [
 
 | Folder | Description |
 |---|---|
-| [`src/peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
+| [`src/peach/`](src/peach/) | Original Peach firmware (Hagiwo-based dual oscillator). See [src/peach/README.md](src/peach/README.md) |
 | [`src/apricot/`](src/apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 50 cent detune (fifth at full clockwise). See [src/apricot/README.md](src/apricot/README.md) |
 
 ## Flash your module
@@ -28,6 +28,10 @@ This firmware drives the DAC directly using register-level access and uses the [
 Flash your module straight from the browser with the [Peach web flasher](https://wgd-modular.github.io/peach-firmware/). Open it in Google Chrome or Edge, connect the XIAO RA4M1 over USB, double-tap RESET to enter the bootloader, then pick a firmware and press flash. It lists every firmware of the latest release together with its controls, and can also flash a local `.bin` you built yourself.
 
 Prefer to grab the raw binaries? Every firmware is pre-compiled and attached to the [latest release](https://github.com/wgd-modular/peach-firmware/releases/latest).
+
+## Manual
+
+The [user manual](https://github.com/wgd-modular/peach-firmware/releases/latest/download/peach-manual.pdf) (PDF) describes the module, how to flash it and every firmware with all of its controls. It is attached to every release, and the CI run of each commit has a build of it as an artifact. To build it yourself run `pixi run manual`; it only needs `typst`, `python` and `git`, managed by pixi, and takes the history of each firmware's folder from `git log`, so clone the repository with its full history.
 
 ## Compilation
 
@@ -55,7 +59,9 @@ Huge thanks to **Hagiwo** for the original concept, code, and inspiration. This 
 
 ## Contributing
 
-Bugfixes, improvements, and additional waveform support are always welcome — feel free to open an issue or pull request.
+Bugfixes, improvements, and additional waveform support are always welcome — feel free to open an issue or pull request. Each new firmware should be located in a new sub-folder of `src/` with the same name as its `.ino` file, together with a `README.md` file telling users about the controls and other possibly interesting stuff.
+
+The manual is generated from these READMEs, there is no hand-written text per firmware. The first `#` heading is the firmware's name, the text up to the first section heading its introduction, and every heading of the shallowest level below it starts a section. A section called "Controls" is highlighted, and what stands before its first sub-heading goes into a plaque, so put the table of the controls there. Sections for people who build or change the firmware themselves (those called Build & upload, Changing the wavetables, Flashing or Performance, say) are left out, as the manual has a chapter on both. Who wrote a firmware, when it was added and last changed come from the git history of its folder, so credit co-authors with a `Co-authored-by` trailer. Images and tables are fine, keep the text to Markdown.
 
 ---
 
