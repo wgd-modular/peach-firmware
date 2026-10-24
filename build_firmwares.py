@@ -7,6 +7,7 @@
 #
 import argparse
 import hashlib
+import json
 import os
 import pathlib
 import platform
@@ -98,7 +99,7 @@ def download_arduino_cli():
         return 1
 
     with tarfile.open(archive) as tar:
-        tar.extract("arduino-cli", ARDUINO_CLI_DIR)
+        tar.extract("arduino-cli", ARDUINO_CLI_DIR, filter="data")
     archive.unlink()
     ARDUINO_CLI_BIN.chmod(0o755)
     return 0
@@ -124,10 +125,27 @@ def fetch_agtimer():
     return 0
 
 
+def core_installed(env):
+    listed = subprocess.run(
+        [str(ARDUINO_CLI_BIN), "core", "list", "--json"], env=env,
+        capture_output=True, text=True)
+    if listed.returncode != 0:
+        return False
+    try:
+        platforms = json.loads(listed.stdout).get("platforms") or []
+    except ValueError:
+        return False
+    return any(platform.get("id") == SEEED_CORE and
+               platform.get("installed_version") == SEEED_CORE_VERSION
+               for platform in platforms)
+
+
 def setup():
     if download_arduino_cli() != 0:
         return 1
     env = arduino_env()
+    if core_installed(env):
+        return fetch_agtimer()
     cli = str(ARDUINO_CLI_BIN)
     steps = [
         [cli, "config", "init", "--overwrite",
