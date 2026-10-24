@@ -7,7 +7,7 @@ Same hardware, same build steps as `peach/` — only the sketch differs.
 
 | | Peach | Apricot |
 |---|---|---|
-| Waves | 16 single-cycle waves, one at a time | 4 banks × 16 frames, scanned smoothly (frame crossfade) |
+| Waves | 16 single-cycle waves, one at a time | 5 banks × 16 frames, scanned smoothly (frame crossfade) |
 | OSC 2 Level pot + CV (A3) | OSC 2 volume | **Wavetable position** (frame 0 → 15) |
 | OSC 1 / OSC 2 mix | OSC 1 50 %, OSC 2 0–50 % | fixed **50 % / 50 %** |
 | Detune pot (A2) | 0 → ~+2 octaves | **0 → +50 cent, fifth at full clockwise** |
@@ -22,7 +22,7 @@ Same hardware, same build steps as `peach/` — only the sketch differs.
 | Pitch pot | A1 | coarse pitch |
 | Detune pot | A2 | OSC 2 detune, 0 … +50 cent; full clockwise jumps to a fifth |
 | OSC 2 Level pot + CV | A3 | wavetable position |
-| Wave button | D8 | cycle bank 0 → 3 |
+| Wave button | D8 | cycle bank 0 → 4 |
 | Out | A0 (DAC) | OSC 1 + OSC 2, 50/50 |
 
 ## Wavetable banks
@@ -33,6 +33,7 @@ Same hardware, same build steps as `peach/` — only the sketch differs.
 | 1 | PWM: square → 5 % pulse |
 | 2 | The 16 original Peach waves, phase-aligned and sorted bright → soft (pulse125, saw … tri, FM3005, sin) for smooth crossfades |
 | 3 | 2-op FM, ratio 2:1, index 1 → 8 |
+| 4 | Hard-sync saw, slave/master ratio 1.5 → 8 (brightest bank) |
 
 Every frame is DC-free and normalized to the full 12-bit range.
 
@@ -45,7 +46,7 @@ python3 apricot/tools/gen_wavetables.py
 ```
 
 Standard-library Python 3 only. Bank 2 is read from `peach/peach.ino`, so keep that file.
-Flash budget: each bank is 16 × 1024 × 2 B = 32 KB. Current build uses ~181 KB of 256 KB, so 2 more banks fit.
+Flash budget: each bank is 16 × 1024 × 2 B = 32 KB. Current build uses ~214 KB of 256 KB, so 1 more bank fits.
 
 ## Build & upload
 

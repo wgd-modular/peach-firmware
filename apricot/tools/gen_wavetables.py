@@ -106,11 +106,21 @@ def bank_fm():
     return frames
 
 
+def bank_sync():
+    # Hard-sync saw: slave/master ratio 1.5 .. 8 (exponential). Very bright, resets every cycle.
+    frames = []
+    for f in range(FRAMES):
+        ratio = 1.5 * (8 / 1.5) ** (f / (FRAMES - 1))
+        frames.append([(i * ratio / TABLE_SIZE) % 1.0 for i in range(TABLE_SIZE)])
+    return frames
+
+
 BANKS = [
     ("saw sweep: 4 -> 64 harmonics", bank_saw_sweep),
     ("pwm: square -> 5% pulse", bank_pwm),
     ("peach original 16 waves, phase-aligned, bright -> soft", bank_peach_original),
     ("fm 2:1, index 1 -> 8", bank_fm),
+    ("hard sync saw, ratio 1.5 -> 8", bank_sync),
 ]
 
 
