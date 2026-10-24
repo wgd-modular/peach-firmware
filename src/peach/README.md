@@ -6,8 +6,8 @@ The original Peach firmware, a dual oscillator built on [Hagiwo's RA4M1 oscillat
 
 | Input | Pin | Function |
 |---|---|---|
-| V/Oct CV | A5 | pitch of both oscillators, 1 V/oct |
-| Pitch pot | A1 | coarse pitch |
+| 1 V/Oct CV | A5 | pitch of both oscillators |
+| Frequency pot | A1 | coarse pitch |
 | Detune pot | A2 | OSC 2 pitch, from unison up to about two octaves above OSC 1 |
 | OSC 2 Level pot + CV | A3 | OSC 2 level, from silent to as loud as OSC 1 |
 | Wave button | D8 | next wave, saved in EEPROM |

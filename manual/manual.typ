@@ -201,7 +201,7 @@
   #tiled-head(tiles-end)
   #foot(text(font: serif, size: 10pt, style: "italic", fill: peach-deep,
     tracking: 0.04em)[wgd modular])
-  #place(top + left, dx: 9 * cell, dy: cell, block(width: 4 * cell,
+  #place(top + left, dx: 10 * cell, dy: cell, block(width: 3 * cell,
     height: 16 * cell, fill: cream-soft, radius: 1.5mm, clip: true,
     inset: 1.5mm, block(width: 100%, height: 100%, clip: true,
       place(top + center, image("assets/panel.png", height: 100%)))))
@@ -287,12 +287,12 @@
       linebreak()
       body
     })
-    item[Pitch][Coarse pitch of the oscillators.]
+    item[Frequency][Coarse pitch of the oscillators.]
     item[Detune][Tunes the second oscillator against the first.]
-    item[OSC 2 Level][A knob and a CV input that add up. The original
-      firmware sets the level of the second oscillator with them, others
-      give them a new job.]
-    item[V/Oct][Pitch CV, 1 V per octave.]
+    item[OSC 2 Level][A knob and a CV input below it that add up. The
+      original firmware sets the level of the second oscillator with them,
+      others give them a new job.]
+    item[1 V/Oct][Pitch CV, 1 V per octave.]
     item[Wave][A button to switch the wave or the wavetable bank. The
       choice is saved and survives a power cycle.]
     item[Out][The audio output.]
@@ -308,8 +308,8 @@ firmware chapters use the same names.
 
 #table(columns: (auto, 1fr),
   table.header([Control], [XIAO pin]),
-  [Out], [A0, the DAC], [Pitch], [A1], [Detune], [A2],
-  [OSC 2 Level, knob and CV], [A3], [V/Oct], [A5], [Wave], [D8],
+  [Out], [A0, the DAC], [Frequency], [A1], [Detune], [A2],
+  [OSC 2 Level, knob and CV], [A3], [1 V/Oct], [A5], [Wave], [D8],
 )
 
 Where a firmware adds a CV input to a knob, the knob sets the starting point
