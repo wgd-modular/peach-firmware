@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="168" viewBox="0 0 168 168">
+  <defs>
+    <symbol id="peach" viewBox="0 0 48 48">
+      <path d="M24,13 C14,8 4,15 5.5,27.5 C7,39 15,45 24,45 C33,45 41,39 42.5,27.5 C44,15 34,8 24,13 Z"/>
+      <path d="M24.5,13.5 C20.5,21 20.5,35 24,44.5" fill="none" stroke="#FFF8F2" stroke-opacity="0.55" stroke-width="2" stroke-linecap="round"/>
+      <path d="M24,13 C24,9.5 25,6.5 27.5,4" fill="none" stroke="#6B4A2E" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M27,8.5 C30.5,2.5 38.5,1 43.5,3.5 C39.5,9.5 32,11.5 27,8.5 Z" fill="#5E8C4A"/>
+    </symbol>
+    <g id="dot">
+      <circle r="4.5" fill="none" stroke="#C25A32" stroke-opacity="0.4" stroke-width="1.4"/>
+      <circle r="1.5" fill="#C25A32" fill-opacity="0.45"/>
+    </g>
+  </defs>
+
+  <rect width="168" height="168" fill="#FFF1E6"/>
+
+  <g fill="none" stroke="#C25A32" stroke-opacity="0.12" stroke-width="1.5">
+    <path d="M84,0V168 M0,84H168"/>
+  </g>
+  <g fill="none" stroke="#C25A32" stroke-opacity="0.2" stroke-width="2">
+    <path d="M0,0H168 M0,168H168 M0,0V168 M168,0V168"/>
+  </g>
+
+  <circle cx="42" cy="42" r="30" fill="none" stroke="#EE8A5E" stroke-opacity="0.16" stroke-width="10"/>
+  <circle cx="126" cy="42" r="30" fill="none" stroke="#5E8C4A" stroke-opacity="0.16" stroke-width="10"/>
+  <circle cx="42" cy="126" r="30" fill="none" stroke="#E2A23B" stroke-opacity="0.16" stroke-width="10"/>
+  <circle cx="126" cy="126" r="30" fill="none" stroke="#D2596B" stroke-opacity="0.16" stroke-width="10"/>
+
+  <use href="#peach" x="24" y="24" width="36" height="36" fill="#EE8A5E"/>
+  <use href="#peach" x="108" y="24" width="36" height="36" fill="#5E8C4A" transform="rotate(180 126 42)"/>
+  <use href="#peach" x="24" y="108" width="36" height="36" fill="#E2A23B" transform="rotate(180 42 126)"/>
+  <use href="#peach" x="108" y="108" width="36" height="36" fill="#D2596B"/>
+
+  <use href="#dot" x="0" y="0"/>
+  <use href="#dot" x="84" y="0"/>
+  <use href="#dot" x="168" y="0"/>
+  <use href="#dot" x="0" y="84"/>
+  <use href="#dot" x="84" y="84"/>
+  <use href="#dot" x="168" y="84"/>
+  <use href="#dot" x="0" y="168"/>
+  <use href="#dot" x="84" y="168"/>
+  <use href="#dot" x="168" y="168"/>
+</svg>
