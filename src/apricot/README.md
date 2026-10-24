@@ -1,4 +1,4 @@
-# Apricot Firmware
+# Apricot
 
 Wavetable firmware for the **Peach** module hardware (Seeeduino XIAO RA4M1).
 Same hardware, same build steps as `src/peach/` — only the sketch differs.
