@@ -16,6 +16,13 @@ This firmware drives the DAC directly using register-level access and uses the [
 - Compact and efficient implementation
 - Built on top of Hagiwo's code and ideas
 
+## Firmwares
+
+| Folder | Description |
+|---|---|
+| [`peach/`](peach/) | Original Peach firmware (Hagiwo-based dual oscillator) |
+| [`apricot/`](apricot/) | Wavetable firmware: OSC 2 Level pot/CV scans the wavetables, fixed 50/50 mix, 12 cent detune (fifth at full clockwise). See [apricot/README.md](apricot/README.md) |
+
 ## Installation
 
 1. **Install Arduino IDE**  
