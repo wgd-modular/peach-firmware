@@ -8,6 +8,7 @@ const FLASH_SIZE = (256 - 16) * 1024;
 const ACCENTS = ["peach", "leaf", "apricot", "rose"];
 
 let dfuDevice = null;
+let busy = false;
 
 const $ = (sel, el) => (el || document).querySelector(sel);
 
@@ -111,7 +112,7 @@ function parseReadme(md) {
   }
 
   // The card has no room for the XIAO pin a control is wired to.
-  const pin = fromTable ? rows[0].findIndex(c => /^pin$/i.test(c)) : -1;
+  const pin = fromTable ? rows[0].findIndex(c => /\bpin\b/i.test(c)) : -1;
   if (pin >= 0) rows = rows.map(r => r.filter((_, i) => i !== pin));
 
   return { description, rows };
@@ -125,7 +126,8 @@ function escapeHtml(s) {
 }
 
 function resolveReadmeLink(url, folder, tag) {
-  if (/^([a-z][a-z0-9+.-]*:)?\/\//i.test(url) || url.startsWith("mailto:")) return url;
+  if (/^(https?:|mailto:)/i.test(url)) return url;
+  if (/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(url)) return "#";
   if (url.startsWith("#")) return `https://github.com/${REPO}/blob/${tag}/src/${folder}/README.md${url}`;
   const parts = `src/${folder}/${url}`.split("/");
   const resolved = [];
@@ -167,18 +169,18 @@ function buildCard(asset, tag, accent) {
   card.innerHTML = `
     <div class="card-head">
       <svg class="fw-mark" viewBox="0 0 48 48" aria-hidden="true"><use href="pattern.svg#peach" fill="currentColor"/></svg>
-      <h2>${fw.replace(/-/g, " ")}</h2>
-      <span class="ver">${tag}</span>
+      <h2>${escapeHtml(fw.replace(/-/g, " "))}</h2>
+      <span class="ver">${escapeHtml(tag)}</span>
     </div>
     <div class="card-body">
       <p class="desc">Loading description…</p>
       <div class="controls" hidden><h3>Controls</h3><table></table></div>
-      <p class="status-line" hidden></p>
+      <p class="status-line" role="status" hidden></p>
       <div class="progress" hidden><div class="bar"></div><span class="ptext"></span></div>
       <div class="card-foot">
         <a class="readme-link" target="_blank" rel="noopener"
-           href="https://github.com/${REPO}/blob/${tag}/src/${fw}/README.md">Full guide ↗</a>
-        <button class="btn flash-btn">Flash</button>
+           href="https://github.com/${REPO}/blob/${escapeHtml(tag)}/src/${escapeHtml(fw)}/README.md">Full guide ↗</a>
+        <button class="btn flash-btn" aria-label="Flash ${escapeHtml(fw)}">Flash</button>
       </div>
     </div>`;
 
@@ -282,19 +284,25 @@ async function connectDevice() {
   return device;
 }
 
-async function ensureDevice() {
-  if (dfuDevice && dfuDevice.device_.opened) return dfuDevice;
-  dfuDevice = await connectDevice();
+function setDeviceStatus(text, ok) {
   const status = $("#device-status");
-  status.textContent = `connected: ${dfuDevice.device_.productName || "XIAO RA4M1 bootloader"}`;
-  status.classList.add("ok");
+  status.textContent = text;
+  status.classList.toggle("ok", ok);
+}
+
+if ("usb" in navigator) {
   navigator.usb.addEventListener("disconnect", e => {
     if (dfuDevice && e.device === dfuDevice.device_) {
       dfuDevice = null;
-      status.textContent = "device disconnected";
-      status.classList.remove("ok");
+      setDeviceStatus("device disconnected", false);
     }
   });
+}
+
+async function ensureDevice() {
+  if (dfuDevice && dfuDevice.device_.opened) return dfuDevice;
+  dfuDevice = await connectDevice();
+  setDeviceStatus(`connected: ${dfuDevice.device_.productName || "XIAO RA4M1 bootloader"}`, true);
   return dfuDevice;
 }
 
@@ -306,8 +314,11 @@ async function flashBuffer(buffer, ui) {
   const device = await ensureDevice();
 
   ui.status("Preparing…");
+  // A flash that failed or was cut short can leave the bootloader mid
+  // download. Bring it back to idle before starting over.
   let state = await device.getStatus();
   if (state.state === dfu.dfuERROR) await device.clearStatus();
+  else if (state.state !== dfu.dfuIDLE) await device.abort();
 
   device.logProgress = (done, total) => {
     if (total) ui.progress(done / total, `${Math.round(done / total * 100)}%`);
@@ -324,27 +335,44 @@ async function flashBuffer(buffer, ui) {
   const manifestationTolerant = (functional.bmAttributes & 0x04) !== 0;
   await device.do_download(functional.wTransferSize, buffer, manifestationTolerant);
   dfuDevice = null;
+  setDeviceStatus("flashed, reconnect to flash again", false);
   ui.progress(1, "100%");
   ui.done("Flashed! The module restarts on its own — if not, tap RESET.");
+}
+
+// Only one flash may talk to the bootloader at a time, so every Flash
+// button is disabled while one runs.
+function setBusy(value) {
+  busy = value;
+  document.querySelectorAll(".flash-btn").forEach(b => { b.disabled = value; });
+  $("#local-flash").disabled = value || !localBuffer;
 }
 
 function cardUi(card) {
   const line = $(".status-line", card);
   const prog = $(".progress", card);
-  const btn = $(".flash-btn", card) || $("#local-flash");
   return {
-    start() { btn.disabled = true; line.hidden = false; line.className = "status-line"; prog.hidden = false; },
+    start() { setBusy(true); line.hidden = false; line.className = "status-line"; prog.hidden = false; ui_progress(prog, 0, ""); },
     status(t) { line.textContent = t; },
-    progress(f, t) { prog.style.setProperty("--p", `${f * 100}%`); $(".ptext", prog).textContent = t; },
-    done(t) { line.textContent = t; line.className = "status-line ok"; btn.disabled = false; },
-    fail(t) { line.textContent = t; line.className = "status-line err"; prog.hidden = true; btn.disabled = false; }
+    progress(f, t) { ui_progress(prog, f, t); },
+    done(t) { line.textContent = t; line.className = "status-line ok"; setBusy(false); },
+    fail(t) { line.textContent = t; line.className = "status-line err"; prog.hidden = true; setBusy(false); }
   };
 }
 
+function ui_progress(prog, f, t) {
+  prog.style.setProperty("--p", `${f * 100}%`);
+  $(".ptext", prog).textContent = t;
+}
+
 async function flashAsset(asset, tag, card) {
+  if (busy) return;
   const ui = cardUi(card);
   ui.start();
   try {
+    // Pick the device first: the browser only allows that right after the
+    // click, not once the download below has taken a while.
+    await ensureDevice();
     ui.status("Downloading firmware…");
     // GitHub's release-asset download redirects to a storage host that sends
     // no Access-Control-Allow-Origin header, so a cross-origin fetch() of
@@ -353,6 +381,9 @@ async function flashAsset(asset, tag, card) {
     const res = await fetch(`firmwares/${tag}/${asset.name}`);
     if (!res.ok) throw new Error(`download failed (${res.status})`);
     const buffer = await res.arrayBuffer();
+    if (asset.size && buffer.byteLength !== asset.size) {
+      throw new Error(`download incomplete (${buffer.byteLength} of ${asset.size} bytes)`);
+    }
     await flashBuffer(buffer, ui);
   } catch (err) {
     ui.fail(friendly(err));
@@ -383,19 +414,19 @@ $("#local-file").addEventListener("change", async e => {
   if (!file) return;
   localBuffer = await file.arrayBuffer();
   $("#local-name").textContent = `${file.name} · ${(file.size / 1024).toFixed(1)} KB`;
-  $("#local-flash").disabled = false;
+  $("#local-flash").disabled = busy;
 });
 
 $("#local-flash").addEventListener("click", async () => {
+  if (busy || !localBuffer) return;
   const prog = $("#local-progress");
-  const line = document.createElement("p");
-  const holder = $(".local-body");
-  let ui = {
-    start() { $("#local-flash").disabled = true; prog.hidden = false; },
+  const line = $("#local-status");
+  const ui = {
+    start() { setBusy(true); prog.hidden = false; line.hidden = true; ui_progress(prog, 0, ""); },
     status(t) { $(".ptext", prog).textContent = t; },
-    progress(f, t) { prog.style.setProperty("--p", `${f * 100}%`); $(".ptext", prog).textContent = t; },
-    done(t) { $(".ptext", prog).textContent = "done"; line.className = "status-line ok"; line.textContent = t; holder.appendChild(line); $("#local-flash").disabled = false; },
-    fail(t) { line.className = "status-line err"; line.textContent = t; holder.appendChild(line); $("#local-flash").disabled = false; }
+    progress(f, t) { ui_progress(prog, f, t); },
+    done(t) { $(".ptext", prog).textContent = "done"; line.className = "status-line ok"; line.textContent = t; line.hidden = false; setBusy(false); },
+    fail(t) { line.className = "status-line err"; line.textContent = t; line.hidden = false; setBusy(false); }
   };
   ui.start();
   try { await flashBuffer(localBuffer, ui); }

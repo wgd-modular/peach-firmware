@@ -142,7 +142,7 @@ main { max-width: 1060px; margin: 0 auto; padding: 44px 24px 60px; }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(310px, 100%), 1fr));
   gap: 26px;
 }
 
@@ -317,7 +317,12 @@ main { max-width: 1060px; margin: 0 auto; padding: 44px 24px 60px; }
 .file-btn { position: relative; overflow: hidden; display: inline-block; }
 .file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 #local-name { font-size: 0.88rem; color: var(--ink-soft); }
-#local-progress { flex-basis: 100%; }
+#local-progress, #local-status { flex-basis: 100%; }
+
+a:focus-visible, button:focus-visible, summary:focus-visible, .file-btn:focus-within {
+  outline: 3px solid var(--peach-deep);
+  outline-offset: 3px;
+}
 
 /* ---------- footer ---------- */
 
