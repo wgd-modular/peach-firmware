@@ -3,8 +3,8 @@
 #include <EEPROM.h>
 #include "wavetables.h"
 
-const float pitch_calb = 0.985;
-const int octave_select = 2;
+const float pitch_calb = 0.972;  // measured on two modules: 0.985 played ~11 cent/V sharp
+const float BASE_HZ = 32.7032f;  // C1: Frequency pot fully left at 0 V
 // Detune: 0..50 cent over the pot travel, jumps to a fifth (700 cent) at full clockwise.
 const float DETUNE_MAX_CENT = 50.0f;
 const int DETUNE_FIFTH_THRESHOLD = 1010;  // ADC value counted as full clockwise (headroom for noise)
@@ -19,7 +19,6 @@ float table_progress2 = 0;
 bool wave_sw = 1;
 bool old_wave_sw = 1;
 long timer = 0;
-float voct_table[2048];
 
 // 12-Bit D/A Converter.The reference source for the DAC settings is below.
 //https://github.com/Grumpy-Mike/Game_of_Life_with_sound
@@ -44,11 +43,6 @@ float voct_table[2048];
 
 void setup() {
   pinMode(D8, INPUT_PULLUP);  //bank sw
-
-  // make V/oct table
-  for (int i = 0; i < 2048; ++i) {
-    voct_table[i] = pow(2, i / 204.8);
-  }
 
   bank = EEPROM.read(0);
   if (bank >= WT_BANKS) {
@@ -105,11 +99,17 @@ void timerCallback() {
 void loop() {
   if (timer + 1 <= millis()) {
     old_wave_sw = wave_sw;
-    int osc_cv = analogRead(A5);
+    // Average a burst of reads against ADC noise; no smoothing over time, so no pitch slides.
+    int osc_cv = 0, freq_pot = 0;
+    for (int n = 0; n < 8; ++n) {
+      osc_cv += analogRead(A5);
+      freq_pot += analogRead(A1);
+    }
     wave_sw = digitalRead(D8);
 
-    // voct_table increments are for a 2048 table; WT_SIZE scales them down
-    float p = voct_table[(int)(osc_cv * pitch_calb) + analogRead(A1) / 2] * octave_select * 0.5f * (WT_SIZE / 2048.0f);
+    // 204.8 ADC steps per octave, continuous (no 5.9 cent steps)
+    float octaves = (osc_cv * pitch_calb + freq_pot * 0.5f) / (8 * 204.8f);
+    float p = exp2f(octaves) * (BASE_HZ * WT_SIZE / FREQ_SAMPLING);
     pitch = p;
     int detune_pot = analogRead(A2);
     float cent = detune_pot >= DETUNE_FIFTH_THRESHOLD ? 700.0f : detune_pot * (DETUNE_MAX_CENT / DETUNE_FIFTH_THRESHOLD);
