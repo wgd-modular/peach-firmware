@@ -1,7 +1,7 @@
 #include <EEPROM.h>
 float table_progress = 0;
 float pitch = 0;
-float pitch_calb = 0.985;
+float pitch_calb = 0.972;  // measured on two modules: 0.985 played ~11 cent/V sharp
 
 float table_progress2 = 0;
 float pitch2 = 0;
@@ -9,7 +9,7 @@ bool wave_sw = 1;
 bool old_wave_sw = 1;
 int selectwave = 0;  //select waveform by ADC
 int osc2vol = 0;
-int octave_select = 2;
+const float BASE_HZ = 32.7032f;  // C1: Frequency pot fully left at 0 V
 long timer = 0;
 
 int detune_pot, osc_pot, osc_cv, oct_swA, oct_swB;
@@ -83,7 +83,7 @@ void setup() {
 
   // make V/oct table
   for (int i = 0; i < 2048; ++i) {
-    voct_table[i] = 1 * pow(2, i / 204.8);
+    voct_table[i] = pow(2, i / 204.8) * (BASE_HZ * tableSize / FREQ_SAMPLING);
   }
 
   selectwave = EEPROM.read(0);
@@ -128,7 +128,7 @@ void loop() {
     osc_cv = analogRead(A5);
     wave_sw = digitalRead(D8);
 
-    pitch = voct_table[(int)(osc_cv * pitch_calb) + analogRead(A1) / 2] * octave_select * 0.5;  // pitch set
+    pitch = voct_table[(int)(osc_cv * pitch_calb) + analogRead(A1) / 2];  // pitch set
     pitch2 = pitch + pitch * analogRead(A2) * 0.003;
 
     osc2vol = map(analogRead(A3), 0, 1023, 0, 100);  //osc2 volume rate

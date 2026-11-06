@@ -19,7 +19,7 @@ Same hardware, same build steps as `src/peach/` — only the sketch differs.
 | Input | Pin | Function |
 |---|---|---|
 | 1 V/Oct CV | A5 | pitch |
-| Frequency pot | A1 | coarse pitch |
+| Frequency pot | A1 | coarse pitch, fully left = C1 (32.7 Hz) at 0 V |
 | Detune pot | A2 | OSC 2 detune, 0 … +50 cent; full clockwise jumps to a fifth |
 | OSC 2 Level pot + CV | A3 | wavetable position |
 | Wave button | D8 | cycle bank 0 → 4 |
