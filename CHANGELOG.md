@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/wgd-modular/peach-firmware/compare/v0.1.0...v0.2.0) (2026-11-06)
+
+
+### Features
+
+* Add the Plum macro oscillator and fix V/Oct tuning ([#9](https://github.com/wgd-modular/peach-firmware/issues/9)) ([4f723c0](https://github.com/wgd-modular/peach-firmware/commit/4f723c0faa693e261fa2d3a7fd5f7c4d63beddd4))
+
 ## 0.1.0 (2026-10-24)
 
 
