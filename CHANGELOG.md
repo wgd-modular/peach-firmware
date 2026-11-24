@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/wgd-modular/peach-firmware/compare/v0.2.0...v0.3.0) (2026-11-24)
+
+
+### Features
+
+* Add the Banana chord oscillator ([#12](https://github.com/wgd-modular/peach-firmware/issues/12)) ([4806fab](https://github.com/wgd-modular/peach-firmware/commit/4806fabc745c145f2318d1b5ce1f6b8ea47704fb))
+* Add the Cherry additive oscillator ([#11](https://github.com/wgd-modular/peach-firmware/issues/11)) ([70e9c9a](https://github.com/wgd-modular/peach-firmware/commit/70e9c9ad6ab4b7c3a93a86721ddf752a971aafa7))
+
 ## [0.2.0](https://github.com/wgd-modular/peach-firmware/compare/v0.1.0...v0.2.0) (2026-11-06)
 
 
